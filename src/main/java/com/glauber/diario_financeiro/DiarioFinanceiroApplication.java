@@ -9,5 +9,4 @@ public class DiarioFinanceiroApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DiarioFinanceiroApplication.class, args);
 	}
-
 }
