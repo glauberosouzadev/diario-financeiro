@@ -19,8 +19,9 @@ public class Transaction {
     private Long id;
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
+    @Column(name = "transaction_value")
     private BigDecimal value;
-    private LocalDate date;
+    private LocalDate data;
     private String category;
     private String description;
     @ManyToOne

@@ -2,7 +2,8 @@ package com.glauber.diario_financeiro.service;
 
 import com.glauber.diario_financeiro.DTO.TransactionDTO;
 import com.glauber.diario_financeiro.model.Transaction;
-import com.glauber.diario_financeiro.repository.TranscationRepository;
+import com.glauber.diario_financeiro.model.User;
+import com.glauber.diario_financeiro.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    private final TranscationRepository transcationRepository;
+    private final TransactionRepository transactionRepository;
     private final UserService userService;
 
     // TODO criar transação
@@ -23,27 +24,35 @@ public class TransactionService {
         var transaction = Transaction.builder()
                 .transactionType(transactionDTO.getTransactionType())
                 .value(transactionDTO.getValue())
-                .date(transactionDTO.getDate())
+                .data(transactionDTO.getDate())
                 .category(transactionDTO.getCategory())
                 .description(transactionDTO.getDescription())
                 .user(user)
                 .build();
-        return transcationRepository.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
     // TODO listar transações através do usuário.
-    public List<Transaction> findTransactionByUser(Long userId) {
-        return transcationRepository.findUserById(userId);
+    public List<Transaction> findtransactionByUserId(Long userId) {
+        var userById = userService.findUserById(userId);
+        if (userById == null) {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+        return transactionRepository.findtransactionByUserId(userById.getId());
     }
 
     // TODO Listar transações dentro de um período
     public List<Transaction> listTransactionByPeriod(Long userId, LocalDate start, LocalDate end) {
-        return transcationRepository.findByUserIdAndDataBetween(userId, start, end);
+        var user = userService.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+        return transactionRepository.findByUserIdAndDataBetween(user.getId(), start, end);
     }
 
     // TODO Calcular transação
     public BigDecimal calculateTransactionBalance(Long userId) {
-        var transactions = findTransactionByUser(userId);
+        var transactions = findtransactionByUserId(userId);
         var balance = BigDecimal.ZERO;
 
         for (Transaction transaction : transactions) {

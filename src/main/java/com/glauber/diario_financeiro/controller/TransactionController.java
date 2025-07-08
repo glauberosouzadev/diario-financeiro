@@ -23,7 +23,7 @@ public class TransactionController {
     }
 
     public ResponseEntity<List<Transaction>> transactionByUserId(@PathVariable Long id) {
-        var transactionsByUser = transactionService.findTransactionByUser(id);
+        var transactionsByUser = transactionService.findtransactionByUserId(id);
         return ResponseEntity.status(HttpStatus.OK).body(transactionsByUser);
     }
 }
