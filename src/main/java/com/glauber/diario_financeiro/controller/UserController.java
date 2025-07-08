@@ -27,13 +27,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userById);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         userService.updateUser(id, userDTO);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
