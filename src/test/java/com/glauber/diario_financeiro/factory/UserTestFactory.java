@@ -14,6 +14,13 @@ public class UserTestFactory {
         return user;
     }
 
+    public static User createUser() {
+        var user = new User();
+        user.setName("Glauber");
+        user.setEmail("glaubero@gmail.com");
+        return user;
+    }
+
     public static UserDTO createUserDto() {
         var dto = new UserDTO();
         dto.setName("Glauber");

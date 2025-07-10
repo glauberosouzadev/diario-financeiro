@@ -2,9 +2,7 @@ package com.glauber.diario_financeiro.service;
 
 import com.glauber.diario_financeiro.DTO.TransactionDTO;
 import com.glauber.diario_financeiro.model.Transaction;
-import com.glauber.diario_financeiro.model.User;
 import com.glauber.diario_financeiro.repository.TransactionRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,11 +10,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserService userService;
+
+    public TransactionService(TransactionRepository transactionRepository, UserService userService) {
+        this.transactionRepository = transactionRepository;
+        this.userService = userService;
+    }
 
     // TODO criar transação
     public Transaction createTransaction(Long userId, TransactionDTO transactionDTO) {
@@ -38,7 +40,7 @@ public class TransactionService {
         if (userById == null) {
             throw new IllegalArgumentException("User not found with id: " + userId);
         }
-        return transactionRepository.findtransactionByUserId(userById.getId());
+        return transactionRepository.findByUserId(userById.getId());
     }
 
     // TODO Listar transações dentro de um período
