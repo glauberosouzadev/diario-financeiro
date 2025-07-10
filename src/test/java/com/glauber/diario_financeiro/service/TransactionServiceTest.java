@@ -3,7 +3,6 @@ package com.glauber.diario_financeiro.service;
 import com.glauber.diario_financeiro.factory.TransactionTestFactory;
 import com.glauber.diario_financeiro.factory.UserTestFactory;
 import com.glauber.diario_financeiro.model.Transaction;
-import com.glauber.diario_financeiro.model.User;
 import com.glauber.diario_financeiro.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -48,7 +47,7 @@ class TransactionServiceTest {
         var transaction = TransactionTestFactory.createTransaction(1L, transactionDto);
         var user = UserTestFactory.createUser(1L);
 
-        when(repository.findtransactionByUserId(1L)).thenReturn(List.of(transaction));
+        when(repository.findByUserId(1L)).thenReturn(List.of(transaction));
         when(userService.findUserById(1L)).thenReturn(user);
         var transactionsByUser = service.findtransactionByUserId(1L);
 
@@ -76,10 +75,10 @@ class TransactionServiceTest {
         var transaction = TransactionTestFactory.createTransaction(1L, transactionDto);
         var user = UserTestFactory.createUser(1L);
 
-        when(repository.findtransactionByUserId(1L)).thenReturn(List.of(transaction));
+        when(repository.findByUserId(1L)).thenReturn(List.of(transaction));
         when(userService.findUserById(1L)).thenReturn(user);
         var transactionsByUser = service.findtransactionByUserId(1L);
-        BigDecimal bigDecimal = service.calculateTransactionBalance(1L);
+        var bigDecimal = service.calculateTransactionBalance(1L);
 
         assertEquals(transaction.getValue(),bigDecimal);
         System.out.println("Saldo: " + bigDecimal);
